@@ -17,29 +17,18 @@
     <div>
       <h1>Ramadhan Companion</h1>
       <p id="greetingText" class="greeting"></p>
+      <p id="todayDate"></p>
     </div>
     <button id="themeToggle" class="theme-btn">🌙</button>
   </header>
 
   <main class="dashboard">
 
-    <!-- NEXT PRAYER HIGHLIGHT -->
+    <!-- NEXT PRAYER -->
     <section class="card highlight">
       <h2>🕌 Waktu Sholat Berikutnya</h2>
-      <p id="nextPrayer" class="next-prayer">Memuat...</p>
-      <p id="countdown" class="countdown"></p>
-    </section>
-
-    <!-- DATE -->
-    <section class="card">
-      <h2>📅 Hari Ini</h2>
-      <p id="todayDate"></p>
-    </section>
-
-    <!-- PRAYER TIMES -->
-    <section class="card">
-      <h2>🕌 Jadwal Sholat</h2>
-      <div id="prayerTimes">Memuat...</div>
+      <p id="nextPrayer">Memuat...</p>
+      <p id="countdown">00:00:00</p>
     </section>
 
     <!-- CHECKLIST -->
@@ -47,9 +36,7 @@
       <h2>✅ Checklist Amal</h2>
       <div id="checklist"></div>
       <div class="progress-wrapper">
-        <div class="progress-bar">
-          <div id="progressFill"></div>
-        </div>
+        <div class="progress-bar"><div id="progressFill"></div></div>
         <p id="progressText"></p>
       </div>
     </section>
@@ -66,6 +53,19 @@
       </div>
     </section>
 
+    <!-- MUHASABAH -->
+    <section class="card">
+      <h2>📝 Muhasabah Harian</h2>
+      <textarea id="muhasabah" placeholder="Tulis refleksi hari ini..."></textarea>
+      <button id="saveMuhasabah">Simpan</button>
+    </section>
+
+    <!-- STATISTIK -->
+    <section class="card">
+      <h2>📊 Statistik Hari Ini</h2>
+      <p id="statsText">Belum ada data</p>
+    </section>
+
   </main>
 
 </div>
@@ -75,6 +75,9 @@
 <script src="js/tilawah.js"></script>
 <script src="js/theme.js"></script>
 <script src="js/prayer.js"></script>
+<script src="js/muhasabah.js"></script>
+<script src="js/stats.js"></script>
+<script src="sw.js"></script>
 
 </body>
 </html>
