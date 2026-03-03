@@ -1,9 +1,35 @@
-const muhasabahEl = document.getElementById("muhasabah");
-const saveBtn = document.getElementById("saveMuhasabah");
+let muhasabahData = JSON.parse(localStorage.getItem("muhasabah")) || [];
+const muhasabahInput = document.getElementById("muhasabahInput");
+const saveMuhasabahBtn = document.getElementById("saveMuhasabah");
+const muhasabahHistory = document.getElementById("muhasabahHistory");
 
-if(muhasabahEl) muhasabahEl.value = localStorage.getItem("muhasabah")||"";
+function renderMuhasabah() {
+  muhasabahHistory.innerHTML = "";
+  muhasabahData.slice().reverse().forEach(entry => {
+    const div = document.createElement("div");
+    div.className = "muhasabah-entry";
+    div.innerHTML = `<p>${entry.date}: ${entry.text}</p>`;
+    muhasabahHistory.appendChild(div);
+  });
+}
 
-saveBtn?.addEventListener("click", ()=>{
-  localStorage.setItem("muhasabah", muhasabahEl.value);
-  alert("Muhasabah tersimpan ✅");
-});
+function saveMuhasabah() {
+  const text = muhasabahInput.value.trim();
+  if (!text) return;
+  const today = new Date().toLocaleDateString('id-ID');
+  muhasabahData.push({ date: today, text });
+  localStorage.setItem("muhasabah", JSON.stringify(muhasabahData));
+  muhasabahInput.value = "";
+  renderMuhasabah();
+}
+
+saveMuhasabahBtn.addEventListener("click", saveMuhasabah);
+
+// Autosave setiap 5 detik
+setInterval(() => {
+  if (muhasabahInput.value.trim()) {
+    saveMuhasabah();
+  }
+}, 5000);
+
+renderMuhasabah();
