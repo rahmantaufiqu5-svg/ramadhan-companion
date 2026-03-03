@@ -1,46 +1,86 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadhan Companion</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ramadhan Companion</title>
 
-<link rel="stylesheet" href="css/style.css">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0f172a" />
 
+  <!-- Google Font Modern -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
 
-<header>
-  <h1>Ramadhan Companion</h1>
-  <button id="themeToggle">🌙</button>
-</header>
+<div class="app-container">
 
-<section class="card">
-  <h2>📅 Hari Ini</h2>
-  <p id="todayDate"></p>
-</section>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div>
+      <h1>Ramadhan Companion</h1>
+      <p id="greetingText" class="greeting"></p>
+    </div>
+    <button id="themeToggle" class="theme-btn">🌙</button>
+  </header>
 
-<section class="card">
-  <h2>🕌 Jadwal Sholat</h2>
-  <p id="prayerTimes">Memuat...</p>
-</section>
+  <!-- MAIN DASHBOARD -->
+  <main class="dashboard">
 
-<section class="card">
-  <h2>✅ Checklist Amal</h2>
-  <div id="checklist"></div>
-  <div id="progressText"></div>
-</section>
+    <!-- NEXT PRAYER HIGHLIGHT -->
+    <section class="card highlight">
+      <h2>🕌 Waktu Sholat Berikutnya</h2>
+      <p id="nextPrayer" class="next-prayer">Memuat...</p>
+      <p id="countdown" class="countdown"></p>
+    </section>
 
-<section class="card">
-  <h2>📖 Target Tilawah</h2>
-  <p>Target: 1 Juz / Hari</p>
-  <p>Progress: <span id="tilawahValue">0</span> Juz</p>
-  <button onclick="addTilawah(0.5)">+0.5</button>
-  <button onclick="addTilawah(1)">+1</button>
-</section>
+    <!-- DATE -->
+    <section class="card">
+      <h2>📅 Hari Ini</h2>
+      <p id="todayDate"></p>
+    </section>
 
+    <!-- PRAYER TIMES -->
+    <section class="card">
+      <h2>🕌 Jadwal Sholat</h2>
+      <div id="prayerTimes">Memuat...</div>
+    </section>
+
+    <!-- CHECKLIST -->
+    <section class="card">
+      <h2>✅ Checklist Amal</h2>
+      <div id="checklist"></div>
+
+      <div class="progress-wrapper">
+        <div class="progress-bar">
+          <div id="progressFill"></div>
+        </div>
+        <p id="progressText"></p>
+      </div>
+    </section>
+
+    <!-- TILAWAH -->
+    <section class="card">
+      <h2>📖 Target Tilawah</h2>
+      <p>Target: 1 Juz / Hari</p>
+      <p>Progress: <span id="tilawahValue">0</span> Juz</p>
+
+      <div class="tilawah-buttons">
+        <button onclick="addTilawah(0.5)">+0.5</button>
+        <button onclick="addTilawah(1)">+1</button>
+        <button onclick="addTilawah(-0.5)">-0.5</button>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- Scripts -->
 <script src="js/main.js"></script>
 <script src="js/checklist.js"></script>
 <script src="js/tilawah.js"></script>
