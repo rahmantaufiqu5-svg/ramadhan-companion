@@ -1,20 +1,18 @@
-// Tanggal Hari Ini
-const today = new Date();
-document.getElementById("todayDate").innerText = today.toDateString();
+function setGreeting() {
+  const hour = new Date().getHours();
+  const greetingText = document.getElementById("greetingText");
 
-// Register Service Worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+  if (!greetingText) return;
+
+  if (hour >= 4 && hour < 11) {
+    greetingText.textContent = "Selamat Pagi 🌅";
+  } else if (hour >= 11 && hour < 15) {
+    greetingText.textContent = "Selamat Siang ☀️";
+  } else if (hour >= 15 && hour < 18) {
+    greetingText.textContent = "Selamat Sore 🌇";
+  } else {
+    greetingText.textContent = "Selamat Malam 🌙";
+  }
 }
 
-// Ambil Jadwal Sholat
-fetch('/.netlify/functions/prayer')
-  .then(res => res.json())
-  .then(data => {
-    document.getElementById("prayerTimes").innerText =
-      `Subuh: ${data.subuh}
-Dzuhur: ${data.dzuhur}
-Ashar: ${data.ashar}
-Maghrib: ${data.maghrib}
-Isya: ${data.isya}`;
-  });
+setGreeting();
