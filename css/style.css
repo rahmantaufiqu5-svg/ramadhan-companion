@@ -1,170 +1,54 @@
-/* ========================
-   GLOBAL SYSTEM
-======================== */
-
-:root {
-  --bg: #f8fafc;
-  --card: #ffffff;
-  --text: #0f172a;
-  --subtext: #64748b;
-  --accent: #10b981;
-  --highlight: #0ea5e9;
-  --shadow: 0 10px 25px rgba(0,0,0,0.05);
-}
-
-body.dark {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --text: #f1f5f9;
-  --subtext: #94a3b8;
-  --accent: #22c55e;
-  --highlight: #38bdf8;
-  --shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  transition: background 0.4s ease, color 0.4s ease;
+  margin: 0;
+  font-family: sans-serif;
+  background: #f0f4f8;
+  color: #111827;
+}
+body.dark {
+  background: #0f172a;
+  color: #f0f4f8;
 }
 
-/* ========================
-   LAYOUT
-======================== */
-
-.app-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-}
+.app-container {padding: 10px;}
 
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
 }
-
-.topbar h1 {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.greeting {
-  font-size: 13px;
-  color: var(--subtext);
-  margin-top: 4px;
-}
-
-.theme-btn {
-  background: var(--card);
-  border: none;
-  padding: 10px 14px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s ease;
-}
-
-.theme-btn:active {
-  transform: scale(0.9);
-}
-
-.dashboard {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* ========================
-   CARD SYSTEM
-======================== */
 
 .card {
-  background: var(--card);
-  padding: 18px;
-  border-radius: 18px;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s ease, background 0.4s ease;
+  background: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
-.card:hover {
-  transform: translateY(-3px);
+body.dark .card {
+  background: #1e293b;
 }
-
-.card h2 {
-  font-size: 15px;
-  margin-bottom: 10px;
-}
-
-.highlight {
-  border: 2px solid var(--highlight);
-}
-
-.next-prayer {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-.countdown {
-  font-size: 14px;
-  color: var(--subtext);
-}
-
-/* ========================
-   PROGRESS BAR
-======================== */
 
 .progress-wrapper {
-  margin-top: 15px;
+  margin-top: 5px;
 }
-
 .progress-bar {
+  width: 100%;
   height: 10px;
-  background: #e2e8f0;
-  border-radius: 10px;
+  background: #ddd;
+  border-radius: 5px;
   overflow: hidden;
-  margin-bottom: 6px;
 }
-
 #progressFill {
   height: 100%;
-  width: 0%;
-  background: var(--accent);
-  transition: width 0.4s ease;
+  width: 0;
+  background: #3b82f6;
+  border-radius: 5px;
 }
 
-/* ========================
-   BUTTON SYSTEM
-======================== */
-
-.tilawah-buttons {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
+textarea {
+  width: 100%;
+  height: 80px;
+  padding: 5px;
 }
 
-.tilawah-buttons button {
-  flex: 1;
-  padding: 8px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  background: var(--accent);
-  color: white;
-  font-weight: 600;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-.tilawah-buttons button:active {
-  transform: scale(0.95);
-  opacity: 0.8;
-}
+button {padding: 5px 10px; margin: 3px; border: none; border-radius: 5px;}
