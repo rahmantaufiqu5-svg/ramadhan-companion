@@ -1,11 +1,37 @@
-const statsText = document.getElementById("statsText");
+const statsChartEl = document.getElementById("statsChart").getContext("2d");
 
-function updateStats(){
-  const checklistSaved = JSON.parse(localStorage.getItem("checklistProgress")||"[]");
-  const tilawahSaved = parseFloat(localStorage.getItem("tilawahValue")||0);
-  const completed = checklistSaved.filter(v=>v).length;
-  if(statsText) statsText.textContent = `Checklist selesai: ${completed}/${checklistSaved.length}, Tilawah: ${tilawahSaved} Juz`;
+// Ambil data dari localStorage
+function getStatsData() {
+  const checklist = JSON.parse(localStorage.getItem("checklist")) || [];
+  const tilawah = JSON.parse(localStorage.getItem("tilawah")) || { progress: 0 };
+  const completedTasks = checklist.filter(t => t.done).length;
+  return {
+    labels: ['Checklist', 'Tilawah'],
+    data: [completedTasks, tilawah.progress]
+  };
 }
 
-setInterval(updateStats,1000);
-updateStats();
+const statsData = getStatsData();
+
+const statsChart = new Chart(statsChartEl, {
+  type: 'bar',
+  data: {
+    labels: statsData.labels,
+    datasets: [{
+      label: 'Progress Ibadah Hari Ini',
+      data: statsData.data,
+      backgroundColor: ['#3b82f6','#10b981'],
+      borderRadius: 5
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: true }
+    },
+    scales: {
+      y: { beginAtZero: true, max: Math.max(...statsData.data, 1) }
+    }
+  }
+});
