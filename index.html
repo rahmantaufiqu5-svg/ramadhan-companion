@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ramadhan Companion</title>
-
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0f172a" />
-
-  <!-- Google Font Modern -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramadhan Companion</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
 </head>
-
 <body>
 
 <div class="app-container">
@@ -28,7 +21,6 @@
     <button id="themeToggle" class="theme-btn">🌙</button>
   </header>
 
-  <!-- MAIN DASHBOARD -->
   <main class="dashboard">
 
     <!-- NEXT PRAYER HIGHLIGHT -->
@@ -54,7 +46,6 @@
     <section class="card">
       <h2>✅ Checklist Amal</h2>
       <div id="checklist"></div>
-
       <div class="progress-wrapper">
         <div class="progress-bar">
           <div id="progressFill"></div>
@@ -68,7 +59,6 @@
       <h2>📖 Target Tilawah</h2>
       <p>Target: 1 Juz / Hari</p>
       <p>Progress: <span id="tilawahValue">0</span> Juz</p>
-
       <div class="tilawah-buttons">
         <button onclick="addTilawah(0.5)">+0.5</button>
         <button onclick="addTilawah(1)">+1</button>
@@ -80,11 +70,11 @@
 
 </div>
 
-<!-- Scripts -->
 <script src="js/main.js"></script>
 <script src="js/checklist.js"></script>
 <script src="js/tilawah.js"></script>
 <script src="js/theme.js"></script>
+<script src="js/prayer.js"></script>
 
 </body>
 </html>
