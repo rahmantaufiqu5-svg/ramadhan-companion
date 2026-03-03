@@ -1,12 +1,10 @@
-exports.handler = async function () {
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      subuh: "04:45",
-      dzuhur: "12:05",
-      ashar: "15:20",
-      maghrib: "18:10",
-      isya: "19:15"
-    })
-  };
-};
+function setNextPrayer() {
+  const nextPrayerEl = document.getElementById("nextPrayer");
+  const countdownEl = document.getElementById("countdown");
+  if(!nextPrayerEl || !countdownEl) return;
+
+  nextPrayerEl.textContent = "Maghrib";
+  countdownEl.textContent = "00:35:20"; // dummy countdown
+}
+
+setNextPrayer();
