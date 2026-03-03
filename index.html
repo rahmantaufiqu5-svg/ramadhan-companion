@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramadhan Companion</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+
+</head>
+<body>
+
+<header>
+  <h1>Ramadhan Companion</h1>
+  <button id="themeToggle">🌙</button>
+</header>
+
+<section class="card">
+  <h2>📅 Hari Ini</h2>
+  <p id="todayDate"></p>
+</section>
+
+<section class="card">
+  <h2>🕌 Jadwal Sholat</h2>
+  <p id="prayerTimes">Memuat...</p>
+</section>
+
+<section class="card">
+  <h2>✅ Checklist Amal</h2>
+  <div id="checklist"></div>
+  <div id="progressText"></div>
+</section>
+
+<section class="card">
+  <h2>📖 Target Tilawah</h2>
+  <p>Target: 1 Juz / Hari</p>
+  <p>Progress: <span id="tilawahValue">0</span> Juz</p>
+  <button onclick="addTilawah(0.5)">+0.5</button>
+  <button onclick="addTilawah(1)">+1</button>
+</section>
+
+<script src="js/main.js"></script>
+<script src="js/checklist.js"></script>
+<script src="js/tilawah.js"></script>
+<script src="js/theme.js"></script>
+
+</body>
+</html>
