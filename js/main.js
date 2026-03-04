@@ -81,3 +81,82 @@ async function loadPrayerTimes(){
 }
 
 loadPrayerTimes();
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll(".bottom-nav button");
+const toastContainer=document.createElement("div");
+toastContainer.id="toastContainer";
+document.body.appendChild(toastContainer);
+
+function showToast(msg,duration=3000){
+  const toast=document.createElement("div");
+  toast.className="toast";
+  toast.textContent=msg;
+  toastContainer.appendChild(toast);
+  setTimeout(()=>toast.remove(),duration);
+}
+
+// Navigasi halaman
+function showPage(pageId){
+  pages.forEach(p=>p.classList.remove("active"));
+  document.getElementById(pageId).classList.add("active");
+  showToast(`Berpindah ke ${pageId.charAt(0).toUpperCase()+pageId.slice(1)}`,1500);
+}
+
+navButtons.forEach(btn=>{
+  btn.addEventListener("click",()=>showPage(btn.dataset.page));
+});
+
+// Loader sementara fetch jadwal sholat
+const nextPrayerEl = document.getElementById("nextPrayer");
+const countdownPrayerEl = document.getElementById("countdownPrayer");
+
+async function fetchPrayerTimes(){
+  nextPrayerEl.textContent="Memuat...";
+  countdownPrayerEl.textContent="";
+  try{
+    const res = await fetch("/.netlify/functions/prayer");
+    const data = await res.json();
+    localStorage.setItem("prayerTimes",JSON.stringify(data));
+    showToast("Jadwal sholat diperbarui",2000);
+    updateNextPrayer(data);
+  }catch(err){
+    nextPrayerEl.textContent="Gagal memuat jadwal";
+    countdownPrayerEl.textContent="";
+    showToast("Gagal koneksi API jadwal sholat",3000);
+  }
+}
+
+function updateNextPrayer(data){
+  const now = new Date();
+  let next=null;
+  for(const [name,time] of Object.entries(data)){
+    const [h,m]=time.split(":");
+    const prayerDate=new Date();
+    prayerDate.setHours(h,m,0,0);
+    if(prayerDate>now){
+      next={name,time:prayerDate};
+      break;
+    }
+  }
+  if(!next){
+    const first=Object.entries(data)[0];
+    const [h,m]=first[1].split(":");
+    const prayerDate=new Date();
+    prayerDate.setDate(prayerDate.getDate()+1);
+    prayerDate.setHours(h,m,0,0);
+    next={name:first[0],time:prayerDate};
+  }
+  nextPrayerEl.textContent=`${next.name} - ${next.time.toLocaleTimeString()}`;
+  function countdown(){
+    const diff=next.time - new Date();
+    const hrs=Math.floor(diff/1000/60/60);
+    const mins=Math.floor((diff/1000/60)%60);
+    const secs=Math.floor((diff/1000)%60);
+    countdownPrayerEl.textContent=`Dalam: ${hrs}j ${mins}m ${secs}s`;
+  }
+  countdown();
+  setInterval(countdown,1000);
+}
+
+fetchPrayerTimes();
+setInterval(fetchPrayerTimes,3600000); // Update tiap jam
