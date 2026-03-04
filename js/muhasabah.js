@@ -1,35 +1,30 @@
-let muhasabahData = JSON.parse(localStorage.getItem("muhasabah")) || [];
+let muhasabahData = JSON.parse(localStorage.getItem("muhasabah")) || {};
 const muhasabahInput = document.getElementById("muhasabahInput");
 const saveMuhasabahBtn = document.getElementById("saveMuhasabah");
 const muhasabahHistory = document.getElementById("muhasabahHistory");
 
-function renderMuhasabah() {
+const todayKey = new Date().toLocaleDateString('id-ID');
+if(!muhasabahData[todayKey]) muhasabahData[todayKey]="";
+
+function renderMuhasabah(){
   muhasabahHistory.innerHTML = "";
-  muhasabahData.slice().reverse().forEach(entry => {
-    const div = document.createElement("div");
-    div.className = "muhasabah-entry";
-    div.innerHTML = `<p>${entry.date}: ${entry.text}</p>`;
+  for(let date in muhasabahData){
+    const div=document.createElement("div");
+    div.className="muhasabah-entry";
+    div.innerHTML=`<strong>${date}:</strong> ${muhasabahData[date]}`;
     muhasabahHistory.appendChild(div);
-  });
+  }
 }
 
-function saveMuhasabah() {
-  const text = muhasabahInput.value.trim();
-  if (!text) return;
-  const today = new Date().toLocaleDateString('id-ID');
-  muhasabahData.push({ date: today, text });
-  localStorage.setItem("muhasabah", JSON.stringify(muhasabahData));
-  muhasabahInput.value = "";
+function saveMuhasabah(){
+  muhasabahData[todayKey] = muhasabahInput.value;
+  localStorage.setItem("muhasabah",JSON.stringify(muhasabahData));
   renderMuhasabah();
 }
 
 saveMuhasabahBtn.addEventListener("click", saveMuhasabah);
 
-// Autosave setiap 5 detik
-setInterval(() => {
-  if (muhasabahInput.value.trim()) {
-    saveMuhasabah();
-  }
-}, 5000);
+// Autosave 5 detik
+setInterval(()=>{if(muhasabahInput.value.trim()) saveMuhasabah()},5000);
 
 renderMuhasabah();
