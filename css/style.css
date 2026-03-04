@@ -1,21 +1,22 @@
 body{
   font-family:'Inter',sans-serif;
   margin:0;
-  padding:0;
-  background:#f1f5f9;
+  background-color:#f1f5f9;
   color:#0f172a;
 }
-.app-container{max-width:480px;margin:auto;padding:10px;}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:10px;background:#3b82f6;color:white;border-radius:8px;margin-bottom:10px;}
-.topbar .theme-btn{font-size:1.5rem;background:none;border:none;cursor:pointer;}
-.dashboard .card{background:white;padding:10px;margin-bottom:10px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-.highlight{border-left:4px solid #10b981;}
-.progress-bar{width:100%;height:10px;background:#e2e8f0;border-radius:5px;overflow:hidden;margin-top:5px;}
-#progressFill{height:100%;width:0%;background:#3b82f6;transition:width 0.5s;}
-.tilawah-buttons button,#addTaskBtn,#saveMuhasabah{margin:2px;padding:5px 10px;border:none;border-radius:5px;background:#3b82f6;color:white;cursor:pointer;}
-textarea{width:100%;height:60px;border-radius:5px;padding:5px;border:1px solid #cbd5e1;}
-/* Dark Mode */
-body.dark{background:#0f172a;color:#f1f5f9;}
-body.dark .card{background:#1e293b;color:#f1f5f9;}
-body.dark .topbar{background:#1e293b;color:#f1f5f9;}
-body.dark .tilawah-buttons button,#addTaskBtn,#saveMuhasabah{background:#10b981;color:white;}
+.dark body{
+  background-color:#0f172a;
+  color:#f1f5f9;
+}
+.app-container{max-width:480px;margin:0 auto;padding:5px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:10px;background:#facc15;border-radius:10px;margin-bottom:5px;}
+.topbar h1{margin:0;font-size:1.2em;}
+.bottom-nav{display:flex;justify-content:space-around;background:#e2e8f0;padding:10px;border-radius:10px;margin-top:5px;}
+.bottom-nav button{background:none;border:none;font-size:1.1em;}
+.pages .page{display:none;}
+.pages .page.active{display:block;}
+.card{background:white;border-radius:10px;padding:10px;margin:5px 0;box-shadow:0 2px 4px rgba(0,0,0,0.1);}
+.progress-wrapper{margin-top:5px;}
+.progress-bar{width:100%;height:10px;background:#e2e8f0;border-radius:5px;}
+#progressFill{width:0%;height:100%;background:#0f172a;border-radius:5px;}
+.calendar-day{display:inline-block;width:30px;height:30px;line-height:30px;margin:2px;text-align:center;border-radius:5px;color:white;font-weight:bold;}
