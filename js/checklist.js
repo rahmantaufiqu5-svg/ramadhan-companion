@@ -1,48 +1,44 @@
-let checklistData = JSON.parse(localStorage.getItem("checklist")) || {};
-const checklistEl = document.getElementById("checklist");
-const progressFill = document.getElementById("progressFill");
-const progressText = document.getElementById("progressText");
+const checklistEl=document.getElementById("checklist");
+const progressFill=document.getElementById("progressFill");
+const progressText=document.getElementById("progressText");
 
-const todayKey = new Date().toLocaleDateString('id-ID');
+let checklistData=JSON.parse(localStorage.getItem("checklist"))||{};
+const todayKey=new Date().toLocaleDateString('id-ID');
 
-// Default task
-if(!checklistData[todayKey]){
-  checklistData[todayKey] = [
-    { text: "Sholat 5 waktu", done: false },
-    { text: "Tilawah 1 juz", done: false },
-    { text: "Sedekah", done: false },
-  ];
-}
-
-function renderChecklist() {
-  checklistEl.innerHTML = "";
-  const tasks = checklistData[todayKey];
-  tasks.forEach((task,index)=>{
-    const div = document.createElement("div");
-    div.className="checklist-item";
-    div.innerHTML=`<input type="checkbox" id="task${index}" ${task.done ? "checked" : ""}>
-                   <label for="task${index}">${task.text}</label>`;
-    const checkbox = div.querySelector("input");
-    checkbox.addEventListener("change", ()=>{
-      task.done = checkbox.checked;
-      saveChecklist();
-    });
-    checklistEl.appendChild(div);
-  });
-  updateProgress();
-}
-
-function updateProgress(){
-  const tasks = checklistData[todayKey];
-  const doneCount = tasks.filter(t=>t.done).length;
-  const percent = Math.round(doneCount/tasks.length*100);
-  progressFill.style.width = percent+"%";
-  progressText.textContent = `${percent}% tercapai`;
-}
+if(!checklistData[todayKey]) checklistData[todayKey]=[
+  {name:"Sholat Fardhu",done:false},
+  {name:"Tilawah",done:false},
+  {name:"Sedekah",done:false}
+];
 
 function saveChecklist(){
   localStorage.setItem("checklist",JSON.stringify(checklistData));
   updateProgress();
 }
 
+function renderChecklist(){
+  checklistEl.innerHTML="";
+  checklistData[todayKey].forEach((item,i)=>{
+    const div=document.createElement("div");
+    div.innerHTML=`<label><input type="checkbox" ${item.done?"checked":""} data-index="${i}"> ${item.name}</label>`;
+    checklistEl.appendChild(div);
+  });
+  checklistEl.querySelectorAll("input[type=checkbox]").forEach(cb=>{
+    cb.addEventListener("change",e=>{
+      const idx=parseInt(e.target.dataset.index);
+      checklistData[todayKey][idx].done=e.target.checked;
+      saveChecklist();
+    });
+  });
+}
+
+function updateProgress(){
+  const done=checklistData[todayKey].filter(t=>t.done).length;
+  const total=checklistData[todayKey].length;
+  const percent=total>0?Math.round(done/total*100):0;
+  progressFill.style.width=`${percent}%`;
+  progressText.textContent=`${done}/${total} Amal Selesai`;
+}
+
 renderChecklist();
+updateProgress();
