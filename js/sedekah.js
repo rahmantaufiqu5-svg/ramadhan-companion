@@ -17,4 +17,100 @@ function renderSedekahApp() {
                 </div>
                 <div>
                     <label class="block text-sm text-slate-500 mb-1">Keterangan / Tujuan</label>
-                    <input type="text" id="sedekah-note" placeholder="Cth: Kotak amal masjid" class="w-full p-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-70
+                    <input type="text" id="sedekah-note" placeholder="Cth: Kotak amal masjid" class="w-full p-3 border border-slate-200 dark:border-slate-600 rounded-xl bg-slate-50 dark:bg-slate-700 focus:outline-none focus:border-orange-500">
+                </div>
+                <button onclick="saveSedekah()" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition">
+                    Simpan Sedekah
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="font-bold mb-3"><i class="fas fa-history text-slate-400"></i> Riwayat Transaksi</h3>
+            <div id="sedekah-history" class="space-y-3"></div>
+        </div>
+    `;
+    loadSedekahHistory();
+}
+
+// Simpan data sedekah
+function saveSedekah() {
+    const amount = document.getElementById('sedekah-amount').value;
+    const note = document.getElementById('sedekah-note').value;
+
+    if (!amount || amount <= 0) {
+        showToast("Masukkan nominal yang valid!");
+        return;
+    }
+
+    const newEntry = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString('id-ID'),
+        amount: parseInt(amount),
+        note: note || 'Tanpa keterangan'
+    };
+
+    let history = JSON.parse(localStorage.getItem('sedekah_history')) || [];
+    history.unshift(newEntry);
+    localStorage.setItem('sedekah_history', JSON.stringify(history));
+
+    showToast("Catatan sedekah berhasil disimpan! 💰");
+    
+    // Reset form
+    document.getElementById('sedekah-amount').value = '';
+    document.getElementById('sedekah-note').value = '';
+    
+    loadSedekahHistory();
+}
+
+// Format Rupiah
+function formatRupiah(angka) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
+}
+
+// Load riwayat dan hitung total
+function loadSedekahHistory() {
+    const container = document.getElementById('sedekah-history');
+    const totalEl = document.getElementById('total-sedekah');
+    let history = JSON.parse(localStorage.getItem('sedekah_history')) || [];
+
+    // Hitung Total
+    const totalAmount = history.reduce((sum, item) => sum + item.amount, 0);
+    totalEl.innerText = formatRupiah(totalAmount);
+
+    if (history.length === 0) {
+        container.innerHTML = `<p class="text-center text-slate-400 text-sm py-4">Belum ada catatan sedekah.</p>`;
+        return;
+    }
+
+    let html = '';
+    history.forEach(item => {
+        html += `
+            <div class="flex justify-between items-center bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+                <div>
+                    <p class="font-bold text-lg text-slate-800 dark:text-slate-200">${formatRupiah(item.amount)}</p>
+                    <p class="text-sm text-slate-500">${item.note} <span class="mx-2">•</span> ${item.date}</p>
+                </div>
+                <button onclick="deleteSedekah(${item.id})" class="text-red-400 hover:text-red-600 p-2">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+// Hapus sedekah
+function deleteSedekah(id) {
+    if (confirm("Hapus catatan sedekah ini?")) {
+        let history = JSON.parse(localStorage.getItem('sedekah_history')) || [];
+        history = history.filter(item => item.id !== id);
+        localStorage.setItem('sedekah_history', JSON.stringify(history));
+        
+        showToast("Catatan dihapus");
+        loadSedekahHistory();
+    }
+}
+
+// Jalankan saat file diload
+document.addEventListener('DOMContentLoaded', renderSedekahApp);
