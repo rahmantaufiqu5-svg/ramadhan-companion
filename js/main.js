@@ -1,29 +1,37 @@
-document.addEventListener("DOMContentLoaded",()=>{
-  const greetingText=document.getElementById("greetingText");
-  const todayDate=document.getElementById("todayDate");
-  const todayHijri=document.getElementById("todayHijri");
-  const dayRamadhan=document.getElementById("dayRamadhan");
-  const nextPrayerEl=document.getElementById("nextPrayer");
-  const countdownEl=document.getElementById("countdown");
+document.addEventListener("DOMContentLoaded", () => {
 
-  const hour=new Date().getHours();
-  let greeting="Selamat ";
-  if(hour<12) greeting+="Pagi ☀️";
-  else if(hour<15) greeting+="Siang 🌤️";
-  else if(hour<18) greeting+="Sore 🌇";
-  else greeting+="Malam 🌙";
-  greetingText.textContent=greeting;
+  // NAVIGASI PAGE
+  const pages = document.querySelectorAll(".page");
+  const navButtons = document.querySelectorAll(".bottom-nav button");
 
-  const now=new Date();
-  todayDate.textContent=now.toLocaleDateString('id-ID',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-
-  fetch('https://api.aladhan.com/v1/gToH?date='+now.getDate()+'-'+(now.getMonth()+1)+'-'+now.getFullYear())
-  .then(res=>res.json())
-  .then(data=>{
-    todayHijri.textContent=`Hijri: ${data.data.hijri.day} ${data.data.hijri.month.en} ${data.data.hijri.year}`;
-    dayRamadhan.textContent=`Hari ke-${data.data.hijri.day} Ramadhan`;
+  navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.page;
+      pages.forEach(p => p.classList.remove("active"));
+      document.getElementById(target).classList.add("active");
+    });
   });
 
-  nextPrayerEl.textContent="Sholat Dzuhur";
-  countdownEl.textContent="02:35:20";
-});
+  // GREETING
+  const greetingText = document.getElementById("greetingText");
+  const hours = new Date().getHours();
+  if(hours < 12) greetingText.textContent = "Selamat Pagi 🌅";
+  else if(hours < 18) greetingText.textContent = "Selamat Siang ☀️";
+  else greetingText.textContent = "Selamat Malam 🌙";
+
+  // TANGGAL HARI INI
+  const todayDate = document.getElementById("todayDate");
+  const ramadhanDay = document.getElementById("ramadhanDay");
+  const countdownIftar = document.getElementById("countdownIftar");
+
+  const today = new Date();
+  todayDate.textContent = today.toLocaleDateString("id-ID", { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+  // Hitung hari ke Ramadhan
+  const ramadhanStart = new Date(today.getFullYear(), 2, 23); // misal 23 Maret
+  const dayDiff = Math.floor((today - ramadhanStart)/1000/60/60/24) + 1;
+  ramadhanDay.textContent = `Hari ke-${dayDiff} Ramadhan`;
+
+  // Countdown buka puasa (Maghrib 18:00)
+  function updateCountdown() {
+    const maghrib = new Date(today.getFullYear(), today.getMonth(), today.getDate
