@@ -1,38 +1,31 @@
-const themeToggleBtn=document.getElementById("themeToggle");
-const darkModeToggle=document.getElementById("darkModeToggle");
+const themeToggleBtn = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+const htmlElement = document.documentElement;
 
-function setDarkMode(enable){
-  if(enable){
-    document.body.classList.add("dark-mode");
-    localStorage.setItem("darkMode",true);
-  }else{
-    document.body.classList.remove("dark-mode");
-    localStorage.setItem("darkMode",false);
-  }
+// Cek preferensi user sebelumnya di LocalStorage
+const savedTheme = localStorage.getItem('theme');
+
+if (savedTheme === 'dark') {
+    htmlElement.classList.add('dark');
+    themeIcon.classList.replace('fa-moon', 'fa-sun');
+} else {
+    htmlElement.classList.remove('dark');
+    themeIcon.classList.replace('fa-sun', 'fa-moon');
 }
 
-themeToggleBtn.addEventListener("click",()=>{
-  const enabled=document.body.classList.contains("dark-mode");
-  setDarkMode(!enabled);
+// Fungsi saat tombol ditekan
+themeToggleBtn.addEventListener('click', () => {
+    if (htmlElement.classList.contains('dark')) {
+        // Pindah ke Light Mode
+        htmlElement.classList.remove('dark');
+        themeIcon.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('theme', 'light');
+        showToast("Mode Terang diaktifkan ☀️");
+    } else {
+        // Pindah ke Dark Mode
+        htmlElement.classList.add('dark');
+        themeIcon.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('theme', 'dark');
+        showToast("Mode Gelap diaktifkan 🌙");
+    }
 });
-
-darkModeToggle?.addEventListener("change",(e)=>setDarkMode(e.target.checked));
-
-// Inisialisasi
-if(localStorage.getItem("darkMode")==="true") setDarkMode(true);
-const themeToggleBtn=document.getElementById("themeToggle");
-function setDarkMode(enable){
-  if(enable){
-    document.body.classList.add("dark-mode");
-    localStorage.setItem("darkMode",true);
-    showToast("Dark mode aktif",1000);
-  }else{
-    document.body.classList.remove("dark-mode");
-    localStorage.setItem("darkMode",false);
-    showToast("Dark mode nonaktif",1000);
-  }
-}
-themeToggleBtn.addEventListener("click",()=>{
-  setDarkMode(!document.body.classList.contains("dark-mode"));
-});
-if(localStorage.getItem("darkMode")==="true") setDarkMode(true);
