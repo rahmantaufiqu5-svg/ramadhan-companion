@@ -1,144 +1,125 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ramadhan Companion</title>
-
-<link rel="stylesheet" href="css/style.css">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
-
-<!-- Google Fonts -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0f172a" />
+<link rel="stylesheet" href="css/style.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
-<!-- Chart.js CDN -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
 
+<body>
 <div class="app-container">
 
-  <!-- HEADER -->
+  <!-- TOPBAR -->
   <header class="topbar">
-    <div>
-      <h1>Ramadhan Companion</h1>
-      <p id="greetingText" class="greeting"></p>
-    </div>
+    <h1>Ramadhan Companion</h1>
     <button id="themeToggle">🌙</button>
   </header>
 
-  <!-- NAVIGATION -->
-  <nav class="bottom-nav">
-    <button data-page="dashboard">🏠 Dashboard</button>
-    <button data-page="ibadah">🕌 Ibadah</button>
-    <button data-page="stats">📊 Statistik</button>
-    <button data-page="muhasabah">📝 Muhasabah</button>
-    <button data-page="settings">⚙️ Pengaturan</button>
-  </nav>
-
   <!-- PAGES -->
-  <main class="pages">
-
+  <div class="pages">
     <!-- DASHBOARD -->
-    <section id="dashboard" class="page active">
-      <div class="card">
+    <div id="dashboard" class="page active">
+      <section class="card">
         <h2>📅 Hari Ini</h2>
         <p id="todayDate"></p>
         <p id="ramadhanDay"></p>
         <p id="countdownIftar"></p>
-      </div>
+      </section>
 
-      <div class="card">
+      <section class="card highlight">
         <h2>🕌 Waktu Sholat Berikutnya</h2>
-        <p id="nextPrayer"></p>
+        <p id="nextPrayer">Memuat...</p>
         <p id="countdownPrayer"></p>
-      </div>
+      </section>
+    </div>
 
-      <div class="card">
+    <!-- IBADAH (Checklist + Tilawah + Sedekah) -->
+    <div id="ibadah" class="page">
+      <section class="card">
         <h2>✅ Checklist Amal</h2>
         <div id="checklist"></div>
         <div class="progress-wrapper">
           <div class="progress-bar"><div id="progressFill"></div></div>
           <p id="progressText"></p>
         </div>
-      </div>
+      </section>
 
-      <div class="card">
-        <h2>📖 Tilawah Hari Ini</h2>
-        <p>Target: 1 Juz / Hari</p>
+      <section class="card">
+        <h2>📖 Target Tilawah</h2>
+        <p>Target: 1 Juz/Hari</p>
         <p>Progress: <span id="tilawahValue">0</span> Juz</p>
-        <div class="tilawah-buttons">
-          <button onclick="addTilawah(0.5)">+0.5</button>
-          <button onclick="addTilawah(1)">+1</button>
-          <button onclick="addTilawah(-0.5)">-0.5</button>
-        </div>
-      </div>
-    </section>
+        <button onclick="addTilawah(0.5)">+0.5</button>
+        <button onclick="addTilawah(1)">+1</button>
+        <button onclick="addTilawah(-0.5)">-0.5</button>
+      </section>
 
-    <!-- IBADAH -->
-    <section id="ibadah" class="page">
-      <div class="card">
-        <h2>🕌 Jadwal Sholat</h2>
-        <div id="prayerTimes"></div>
-      </div>
-      <div class="card">
-        <h2>📖 Tilawah</h2>
-        <div id="tilawahHistory"></div>
-      </div>
-      <div class="card">
-        <h2>✅ Checklist Amal</h2>
-        <div id="checklistHistory"></div>
-      </div>
-    </section>
+      <section class="card">
+        <h2>💰 Sedekah Tracker</h2>
+        <div id="sedekahHistory"></div>
+        <button id="addSedekah">Tambah Sedekah</button>
+      </section>
+    </div>
 
     <!-- STATISTIK -->
-    <section id="stats" class="page">
-      <div class="card">
+    <div id="statistik" class="page">
+      <section class="card">
         <h2>📊 Statistik Ibadah</h2>
         <canvas id="statsChart"></canvas>
-      </div>
-      <div class="card">
+      </section>
+      <section class="card">
         <h2>📅 Kalender Ramadhan</h2>
         <div id="calendar"></div>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <!-- MUHASABAH -->
-    <section id="muhasabah" class="page">
-      <div class="card">
-        <h2>📝 Muhasabah</h2>
-        <textarea id="muhasabahInput" placeholder="Tulis refleksi harianmu..."></textarea>
+    <div id="muhasabah" class="page">
+      <section class="card">
+        <h2>📝 Muhasabah Harian</h2>
+        <textarea id="muhasabahInput" rows="5" placeholder="Tulis refleksi harianmu..."></textarea>
         <button id="saveMuhasabah">Simpan</button>
+      </section>
+      <section class="card">
+        <h2>Riwayat Muhasabah</h2>
         <div id="muhasabahHistory"></div>
-      </div>
-    </section>
+      </section>
+    </div>
 
-    <!-- SETTINGS -->
-    <section id="settings" class="page">
-      <div class="card">
+    <!-- PENGATURAN -->
+    <div id="pengaturan" class="page">
+      <section class="card">
         <h2>⚙️ Pengaturan</h2>
+        <label><input type="checkbox" id="darkModeToggle"> Dark Mode</label>
         <button id="resetData">Reset Semua Data</button>
         <button id="exportData">Export Data</button>
         <button id="importData">Import Data</button>
-        <label>
-          <input type="checkbox" id="darkModeToggle"> Dark Mode
-        </label>
-      </div>
-    </section>
+      </section>
+    </div>
+  </div>
 
-  </main>
-
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button data-page="dashboard">🏠</button>
+    <button data-page="ibadah">🕌</button>
+    <button data-page="statistik">📊</button>
+    <button data-page="muhasabah">📝</button>
+    <button data-page="pengaturan">⚙️</button>
+  </nav>
 </div>
 
 <!-- Scripts -->
-<script src="js/theme.js"></script>
 <script src="js/main.js"></script>
 <script src="js/checklist.js"></script>
 <script src="js/tilawah.js"></script>
 <script src="js/muhasabah.js"></script>
 <script src="js/stats.js"></script>
+<script src="js/sedekah.js"></script>
+<script src="js/theme.js"></script>
 
 </body>
 </html>
