@@ -29,9 +29,17 @@
                 <h1 class="text-xl font-bold">Ramadhan 1447H</h1>
                 <p id="location-text" class="text-xs opacity-80"><i class="fas fa-location-dot"></i> Mencari lokasi...</p>
             </div>
-            <button id="theme-toggle" class="p-2 bg-white/20 rounded-full hover:bg-white/30 transition">
-                <i class="fas fa-moon" id="theme-icon"></i>
+            <div class="flex items-center gap-2">
+            
+            <button id="notif-btn" onclick="requestNotifPermission()" class="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition active:scale-95">
+                <i class="fas fa-bell"></i>
             </button>
+
+            <button id="theme-toggle" class="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition active:scale-95">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+
+        </div>
         </div>
         <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-sm text-center border border-white/20">
             <p id="countdown-label" class="text-sm font-medium mb-1">Menuju Waktu Buka/Imsak</p>
