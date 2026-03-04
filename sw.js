@@ -1,5 +1,5 @@
-const cacheName = "ramadhan-companion-v1";
-const assets = [
+const cacheName="ramadhan-companion-v1";
+const assets=[
   "/",
   "/index.html",
   "/css/style.css",
@@ -11,14 +11,14 @@ const assets = [
   "/js/theme.js"
 ];
 
-self.addEventListener("install", e => {
+self.addEventListener("install",e=>{
   e.waitUntil(
-    caches.open(cacheName).then(cache => cache.addAll(assets))
+    caches.open(cacheName).then(cache=>cache.addAll(assets))
   );
 });
 
-self.addEventListener("fetch", e => {
+self.addEventListener("fetch",e=>{
   e.respondWith(
-    caches.match(e.request).then(res => res || fetch(e.request))
+    caches.match(e.request).then(resp=>resp||fetch(e.request))
   );
 });
