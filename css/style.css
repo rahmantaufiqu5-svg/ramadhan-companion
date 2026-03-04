@@ -1,52 +1,54 @@
-body{
-  font-family:'Inter',sans-serif;
-  margin:0;
-  background-color:#f1f5f9;
-  color:#0f172a;
-}
-.dark body{
-  background-color:#0f172a;
-  color:#f1f5f9;
-}
-.app-container{max-width:480px;margin:0 auto;padding:5px;}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:10px;background:#facc15;border-radius:10px;margin-bottom:5px;}
-.topbar h1{margin:0;font-size:1.2em;}
-.bottom-nav{display:flex;justify-content:space-around;background:#e2e8f0;padding:10px;border-radius:10px;margin-top:5px;}
-.bottom-nav button{background:none;border:none;font-size:1.1em;}
-.pages .page{display:none;}
-.pages .page.active{display:block;}
-.card{background:white;border-radius:10px;padding:10px;margin:5px 0;box-shadow:0 2px 4px rgba(0,0,0,0.1);}
-.progress-wrapper{margin-top:5px;}
-.progress-bar{width:100%;height:10px;background:#e2e8f0;border-radius:5px;}
-#progressFill{width:0%;height:100%;background:#0f172a;border-radius:5px;}
-.calendar-day{display:inline-block;width:30px;height:30px;line-height:30px;margin:2px;text-align:center;border-radius:5px;color:white;font-weight:bold;}
-.toast{
-  position:fixed;
-  bottom:50px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#333;
-  color:#fff;
-  padding:10px 20px;
-  border-radius:8px;
-  opacity:0.9;
-  animation:fadeInOut 3s forwards;
-  z-index:9999;
-}
-@keyframes fadeInOut{
-  0%{opacity:0;transform:translateX(-50%) translateY(20px);}
-  10%,90%{opacity:0.9;transform:translateX(-50%) translateY(0);}
-  100%{opacity:0;transform:translateX(-50%) translateY(-20px);}
-}
-/* Toast Notification */
-#toastContainer{position:fixed;bottom:50px;left:50%;transform:translateX(-50%);z-index:9999;}
-.toast{background:#333;color:#fff;padding:10px 20px;border-radius:8px;opacity:0.9;animation:fadeInOut 3s forwards;margin-bottom:5px;}
-@keyframes fadeInOut{
-  0%{opacity:0;transform:translateY(20px);}
-  10%,90%{opacity:0.9;transform:translateY(0);}
-  100%{opacity:0;transform:translateY(-20px);}
+/* Mengatasi area bawah layar pada HP dengan notch/home indicator */
+.pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
 }
 
-/* Dark mode */
-body.dark-mode{background:#0f172a;color:#f0f0f0;}
-body.dark-mode .card{background:#1e293b;color:#f0f0f0;}
+/* Animasi untuk perpindahan menu (Tab) */
+.app-view {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Style untuk sistem Toast Notification */
+.toast {
+    background-color: #334155; /* slate-700 */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    animation: slideUpFade 0.3s ease-out forwards;
+    white-space: nowrap;
+}
+
+.dark .toast {
+    background-color: #f8fafc; /* slate-50 */
+    color: #0f172a; /* slate-900 */
+}
+
+.toast.hide {
+    animation: fadeOutDown 0.3s ease-in forwards;
+}
+
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutDown {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+/* Sembunyikan scrollbar tapi tetap bisa di-scroll */
+::-webkit-scrollbar {
+    display: none;
+}
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
