@@ -1,30 +1,26 @@
-let muhasabahData = JSON.parse(localStorage.getItem("muhasabah")) || {};
-const muhasabahInput = document.getElementById("muhasabahInput");
-const saveMuhasabahBtn = document.getElementById("saveMuhasabah");
-const muhasabahHistory = document.getElementById("muhasabahHistory");
-
-const todayKey = new Date().toLocaleDateString('id-ID');
-if(!muhasabahData[todayKey]) muhasabahData[todayKey]="";
-
-function renderMuhasabah(){
-  muhasabahHistory.innerHTML = "";
-  for(let date in muhasabahData){
-    const div=document.createElement("div");
-    div.className="muhasabah-entry";
-    div.innerHTML=`<strong>${date}:</strong> ${muhasabahData[date]}`;
-    muhasabahHistory.appendChild(div);
-  }
-}
+const muhasabahInput=document.getElementById("muhasabahInput");
+const muhasabahHistoryEl=document.getElementById("muhasabahHistory");
+let muhasabahData=JSON.parse(localStorage.getItem("muhasabah"))||{};
 
 function saveMuhasabah(){
-  muhasabahData[todayKey] = muhasabahInput.value;
+  muhasabahData[todayKey]=muhasabahInput.value;
   localStorage.setItem("muhasabah",JSON.stringify(muhasabahData));
-  renderMuhasabah();
+  renderMuhasabahHistory();
 }
 
-saveMuhasabahBtn.addEventListener("click", saveMuhasabah);
+function renderMuhasabahHistory(){
+  muhasabahHistoryEl.innerHTML="";
+  Object.keys(muhasabahData).sort().reverse().forEach(date=>{
+    const div=document.createElement("div");
+    div.className="muhasabah-item";
+    div.textContent=`${date}: ${muhasabahData[date]}`;
+    muhasabahHistoryEl.appendChild(div);
+  });
+}
 
-// Autosave 5 detik
-setInterval(()=>{if(muhasabahInput.value.trim()) saveMuhasabah()},5000);
+document.getElementById("saveMuhasabah").addEventListener("click",saveMuhasabah);
 
-renderMuhasabah();
+// Autosave setiap 5 detik
+setInterval(saveMuhasabah,5000);
+
+renderMuhasabahHistory();
