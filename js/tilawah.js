@@ -1,20 +1,12 @@
-let tilawahData = JSON.parse(localStorage.getItem("tilawah")) || {};
-const tilawahValueEl = document.getElementById("tilawahValue");
-const todayKey = new Date().toLocaleDateString('id-ID');
+const tilawahValueEl=document.getElementById("tilawahValue");
+let tilawahData=JSON.parse(localStorage.getItem("tilawah"))||{};
+if(!tilawahData[todayKey]) tilawahData[todayKey]={progress:0};
 
-if(!tilawahData[todayKey]){
-  tilawahData[todayKey] = { progress:0 };
+function saveTilawah(){localStorage.setItem("tilawah",JSON.stringify(tilawahData)); renderTilawah();}
+function renderTilawah(){tilawahValueEl.textContent=tilawahData[todayKey].progress;}
+function addTilawah(juz){
+  tilawahData[todayKey].progress=Math.max(0,(tilawahData[todayKey].progress+juz));
+  saveTilawah();
 }
 
-function updateTilawahUI(){
-  tilawahValueEl.textContent = tilawahData[todayKey].progress.toFixed(2);
-  localStorage.setItem("tilawah",JSON.stringify(tilawahData));
-}
-
-function addTilawah(amount){
-  tilawahData[todayKey].progress += amount;
-  if(tilawahData[todayKey].progress <0) tilawahData[todayKey].progress=0;
-  updateTilawahUI();
-}
-
-updateTilawahUI();
+renderTilawah();
