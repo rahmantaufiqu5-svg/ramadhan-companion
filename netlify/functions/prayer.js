@@ -1,14 +1,14 @@
-exports.handler = async function(event, context) {
-  // Dummy Jadwal Sholat
+exports.handler = async function(event,context){
+  // Contoh: waktu sholat statis
   const prayerTimes = {
-    Fajr: "05:07",
-    Dhuhr: "12:30",
-    Asr: "15:40",
-    Maghrib: "18:35",
-    Isha: "19:45"
+    Fajr: "04:30",
+    Dhuhr: "12:00",
+    Asr: "15:30",
+    Maghrib: "18:00",
+    Isha: "19:30"
   };
   return {
-    statusCode: 200,
+    statusCode:200,
     body: JSON.stringify(prayerTimes)
   };
 };
