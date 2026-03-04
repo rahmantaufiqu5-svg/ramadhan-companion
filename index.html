@@ -1,125 +1,109 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ramadhan Companion</title>
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#0f172a" />
-<link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramadhan Companion v10.3</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-</head>
+<link rel="stylesheet" href="css/style.css">
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 <body>
+
 <div class="app-container">
 
-  <!-- TOPBAR -->
   <header class="topbar">
-    <h1>Ramadhan Companion</h1>
-    <button id="themeToggle">🌙</button>
+    <div>
+      <h1>Ramadhan Companion</h1>
+      <p id="greetingText" class="greeting"></p>
+    </div>
+    <button id="themeToggle" class="theme-btn">🌙</button>
   </header>
 
-  <!-- PAGES -->
-  <div class="pages">
-    <!-- DASHBOARD -->
-    <div id="dashboard" class="page active">
-      <section class="card">
-        <h2>📅 Hari Ini</h2>
-        <p id="todayDate"></p>
-        <p id="ramadhanDay"></p>
-        <p id="countdownIftar"></p>
-      </section>
+  <main class="dashboard">
 
-      <section class="card highlight">
-        <h2>🕌 Waktu Sholat Berikutnya</h2>
-        <p id="nextPrayer">Memuat...</p>
-        <p id="countdownPrayer"></p>
-      </section>
-    </div>
+    <section class="card highlight">
+      <h2>🕌 Waktu Sholat Berikutnya</h2>
+      <p id="nextPrayer">Memuat...</p>
+      <p id="countdownPrayer"></p>
+    </section>
 
-    <!-- IBADAH (Checklist + Tilawah + Sedekah) -->
-    <div id="ibadah" class="page">
-      <section class="card">
-        <h2>✅ Checklist Amal</h2>
-        <div id="checklist"></div>
-        <div class="progress-wrapper">
-          <div class="progress-bar"><div id="progressFill"></div></div>
-          <p id="progressText"></p>
-        </div>
-      </section>
+    <section class="card">
+      <h2>📅 Hari Ini</h2>
+      <p id="todayDate"></p>
+      <p id="ramadhanDay"></p>
+      <p id="countdownIftar"></p>
+    </section>
 
-      <section class="card">
-        <h2>📖 Target Tilawah</h2>
-        <p>Target: 1 Juz/Hari</p>
-        <p>Progress: <span id="tilawahValue">0</span> Juz</p>
+    <section class="card">
+      <h2>✅ Checklist Amal</h2>
+      <div id="checklist"></div>
+      <div class="progress-wrapper">
+        <div class="progress-bar"><div id="progressFill"></div></div>
+        <p id="progressText"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>📖 Tilawah</h2>
+      <p>Target: 1 Juz / Hari</p>
+      <p>Progress: <span id="tilawahValue">0</span> Juz</p>
+      <div class="tilawah-buttons">
         <button onclick="addTilawah(0.5)">+0.5</button>
         <button onclick="addTilawah(1)">+1</button>
         <button onclick="addTilawah(-0.5)">-0.5</button>
-      </section>
+      </div>
+    </section>
 
-      <section class="card">
-        <h2>💰 Sedekah Tracker</h2>
-        <div id="sedekahHistory"></div>
-        <button id="addSedekah">Tambah Sedekah</button>
-      </section>
-    </div>
+    <section class="card">
+      <h2>💸 Sedekah</h2>
+      <button id="addSedekah">Tambah Sedekah</button>
+      <div id="sedekahHistory"></div>
+    </section>
 
-    <!-- STATISTIK -->
-    <div id="statistik" class="page">
-      <section class="card">
-        <h2>📊 Statistik Ibadah</h2>
-        <canvas id="statsChart"></canvas>
-      </section>
-      <section class="card">
-        <h2>📅 Kalender Ramadhan</h2>
-        <div id="calendar"></div>
-      </section>
-    </div>
+    <section class="card">
+      <h2>📝 Muhasabah</h2>
+      <textarea id="muhasabahInput" placeholder="Tulis refleksi hari ini..."></textarea>
+      <button id="saveMuhasabah">Simpan</button>
+      <div id="muhasabahHistory"></div>
+    </section>
 
-    <!-- MUHASABAH -->
-    <div id="muhasabah" class="page">
-      <section class="card">
-        <h2>📝 Muhasabah Harian</h2>
-        <textarea id="muhasabahInput" rows="5" placeholder="Tulis refleksi harianmu..."></textarea>
-        <button id="saveMuhasabah">Simpan</button>
-      </section>
-      <section class="card">
-        <h2>Riwayat Muhasabah</h2>
-        <div id="muhasabahHistory"></div>
-      </section>
-    </div>
+    <section class="card">
+      <h2>📊 Statistik</h2>
+      <canvas id="statsChart" height="200"></canvas>
+    </section>
 
-    <!-- PENGATURAN -->
-    <div id="pengaturan" class="page">
-      <section class="card">
-        <h2>⚙️ Pengaturan</h2>
-        <label><input type="checkbox" id="darkModeToggle"> Dark Mode</label>
-        <button id="resetData">Reset Semua Data</button>
-        <button id="exportData">Export Data</button>
-        <button id="importData">Import Data</button>
-      </section>
-    </div>
-  </div>
+    <section class="card">
+      <h2>📅 Kalender Ramadhan</h2>
+      <div id="calendar"></div>
+    </section>
 
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav">
-    <button data-page="dashboard">🏠</button>
-    <button data-page="ibadah">🕌</button>
-    <button data-page="statistik">📊</button>
-    <button data-page="muhasabah">📝</button>
-    <button data-page="pengaturan">⚙️</button>
-  </nav>
+    <section class="card">
+      <h2>⚙️ Pengaturan</h2>
+      <button id="resetData">Reset Semua Data</button>
+      <button id="exportData">Backup</button>
+      <button id="importData">Restore</button>
+    </section>
+
+  </main>
+
 </div>
 
-<!-- Scripts -->
+<!-- Scripts JS Final -->
 <script src="js/main.js"></script>
 <script src="js/checklist.js"></script>
 <script src="js/tilawah.js"></script>
 <script src="js/muhasabah.js"></script>
-<script src="js/stats.js"></script>
 <script src="js/sedekah.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/calendar.js"></script>
 <script src="js/theme.js"></script>
+<script src="js/backup.js"></script>
 
 </body>
 </html>
