@@ -79,8 +79,8 @@ async function initPrayerTimes() {
 
 function renderPrayerTimes(timings) {
     const grid = document.getElementById('prayer-times-grid');
-    const prayers = ['Imsak', 'Subuh', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
-    const idNames = ['Imsak', 'Subuh', 'Dzuhur', 'Ashar', 'Maghrib', 'Isya'];
+    const prayers = ['Imsak', 'Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    const idNames = ['Imsak', 'Fajr', 'Dzuhur', 'Ashar', 'Maghrib', 'Isya'];
     
     let html = '';
     prayers.forEach((prayer, index) => {
