@@ -1,37 +1,15 @@
-const statsChartEl = document.getElementById("statsChart").getContext("2d");
+let statsData = JSON.parse(localStorage.getItem("stats")) || {};
+const statsChartEl = document.getElementById("statsChart");
+const calendarEl = document.getElementById("calendar");
 
-// Ambil data dari localStorage
-function getStatsData() {
-  const checklist = JSON.parse(localStorage.getItem("checklist")) || [];
-  const tilawah = JSON.parse(localStorage.getItem("tilawah")) || { progress: 0 };
-  const completedTasks = checklist.filter(t => t.done).length;
-  return {
-    labels: ['Checklist', 'Tilawah'],
-    data: [completedTasks, tilawah.progress]
-  };
-}
+const todayKey = new Date().toLocaleDateString('id-ID');
 
-const statsData = getStatsData();
-
-const statsChart = new Chart(statsChartEl, {
-  type: 'bar',
-  data: {
-    labels: statsData.labels,
-    datasets: [{
-      label: 'Progress Ibadah Hari Ini',
-      data: statsData.data,
-      backgroundColor: ['#3b82f6','#10b981'],
-      borderRadius: 5
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: true }
-    },
-    scales: {
-      y: { beginAtZero: true, max: Math.max(...statsData.data, 1) }
-    }
-  }
-});
+// Simpan progress checklist & tilawah ke statsData
+function updateStats(){
+  const checklistToday = JSON.parse(localStorage.getItem("checklist")) || {};
+  const tilawahToday = JSON.parse(localStorage.getItem("tilawah")) || {};
+  
+  statsData[todayKey] = {
+    checklistDone: checklistToday[todayKey]?.filter(t=>t.done).length || 0,
+    checklistTotal: checklistToday[todayKey]?.length || 0,
+    tilawah: tilawahToday
