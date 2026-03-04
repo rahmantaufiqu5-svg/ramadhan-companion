@@ -1,41 +1,48 @@
-let checklistData=JSON.parse(localStorage.getItem("checklist"))||[];
-const checklistEl=document.getElementById("checklist");
-const progressFill=document.getElementById("progressFill");
-const progressText=document.getElementById("progressText");
-const addTaskBtn=document.getElementById("addTaskBtn");
+let checklistData = JSON.parse(localStorage.getItem("checklist")) || {};
+const checklistEl = document.getElementById("checklist");
+const progressFill = document.getElementById("progressFill");
+const progressText = document.getElementById("progressText");
 
-function renderChecklist(){
-  checklistEl.innerHTML="";
-  let completed=0;
-  checklistData.forEach((task,i)=>{
-    const div=document.createElement("div");
-    div.className="task-item";
-    div.innerHTML=`<input type="checkbox" ${task.done?"checked":""} onchange="toggleTask(${i})"> ${task.name} <button onclick="deleteTask(${i})">🗑️</button>`;
+const todayKey = new Date().toLocaleDateString('id-ID');
+
+// Default task
+if(!checklistData[todayKey]){
+  checklistData[todayKey] = [
+    { text: "Sholat 5 waktu", done: false },
+    { text: "Tilawah 1 juz", done: false },
+    { text: "Sedekah", done: false },
+  ];
+}
+
+function renderChecklist() {
+  checklistEl.innerHTML = "";
+  const tasks = checklistData[todayKey];
+  tasks.forEach((task,index)=>{
+    const div = document.createElement("div");
+    div.className="checklist-item";
+    div.innerHTML=`<input type="checkbox" id="task${index}" ${task.done ? "checked" : ""}>
+                   <label for="task${index}">${task.text}</label>`;
+    const checkbox = div.querySelector("input");
+    checkbox.addEventListener("change", ()=>{
+      task.done = checkbox.checked;
+      saveChecklist();
+    });
     checklistEl.appendChild(div);
-    if(task.done) completed++;
   });
-  let percent=checklistData.length?Math.round(completed/checklistData.length*100):0;
-  progressFill.style.width=percent+"%";
-  progressText.textContent=`${percent}% selesai`;
+  updateProgress();
+}
+
+function updateProgress(){
+  const tasks = checklistData[todayKey];
+  const doneCount = tasks.filter(t=>t.done).length;
+  const percent = Math.round(doneCount/tasks.length*100);
+  progressFill.style.width = percent+"%";
+  progressText.textContent = `${percent}% tercapai`;
+}
+
+function saveChecklist(){
   localStorage.setItem("checklist",JSON.stringify(checklistData));
+  updateProgress();
 }
-
-function toggleTask(index){
-  checklistData[index].done=!checklistData[index].done;
-  renderChecklist();
-}
-
-function deleteTask(index){
-  checklistData.splice(index,1);
-  renderChecklist();
-}
-
-addTaskBtn.addEventListener("click",()=>{
-  let taskName=prompt("Nama amal / tugas:");
-  if(taskName){
-    checklistData.push({name:taskName,done:false});
-    renderChecklist();
-  }
-});
 
 renderChecklist();
