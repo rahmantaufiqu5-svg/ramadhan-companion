@@ -98,6 +98,27 @@ function updateCountdown() {
     if (!prayerTimesData) return;
 
     const now = new Date();
+    const currentHourMin = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+    
+    const prayersToCheck = ['Imsak', 'Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    const idNames = ['Imsak', 'Subuh', 'Dzuhur', 'Ashar', 'Maghrib', 'Isya'];
+    
+    prayersToCheck.forEach((prayer, index) => {
+        // Menggunakan prayerTimesData sesuai dengan kodenya
+        if (prayerTimesData && prayerTimesData[prayer]) {
+            const timeOnly = prayerTimesData[prayer].split(' ')[0]; 
+            
+            if (currentHourMin === timeOnly && lastNotifiedPrayer !== prayer) {
+                let msg = `Waktu ${idNames[index]} telah tiba.`;
+                if (prayer === 'Maghrib') msg = "Alhamdulillah, waktunya berbuka puasa! 🍽️";
+                if (prayer === 'Imsak') msg = "Waktu Imsak telah tiba, segera selesaikan sahurmu! 🛑";
+
+                sendNotification(`Waktu ${idNames[index]}`, msg);
+                lastNotifiedPrayer = prayer;
+            }
+        }
+    });
+    
     const currentTime = now.getHours() * 60 + now.getMinutes();
     
     // Parse waktu Maghrib dan Imsak ke dalam menit
@@ -141,3 +162,45 @@ function updateCountdown() {
 
 // Jalankan inisialisasi saat file diload
 document.addEventListener('DOMContentLoaded', initPrayerTimes);
+
+// ==========================================
+// SISTEM NOTIFIKASI JADWAL SHOLAT
+// ==========================================
+
+// 1. Fungsi meminta izin notifikasi saat ikon lonceng diklik
+function requestNotifPermission() {
+    if (!("Notification" in window)) {
+        alert("Yah, browser kamu belum mendukung fitur notifikasi 😢");
+        return;
+    }
+
+    Notification.requestPermission().then(permission => {
+        const notifBtn = document.getElementById('notif-btn');
+        if (permission === "granted") {
+            alert("Sip! Izin Notifikasi berhasil diaktifkan 🔔");
+            if(notifBtn) notifBtn.classList.add('text-yellow-300'); // Ubah warna lonceng jadi kuning emas
+        } else {
+            alert("Izin Notifikasi ditolak.");
+        }
+    });
+}
+
+// 2. Cek status awal saat web dibuka
+document.addEventListener('DOMContentLoaded', () => {
+    if ("Notification" in window && Notification.permission === "granted") {
+        const notifBtn = document.getElementById('notif-btn');
+        if(notifBtn) notifBtn.classList.add('text-yellow-300');
+    }
+});
+
+let lastNotifiedPrayer = "";
+
+// 3. Fungsi memunculkan notifikasi
+function sendNotification(title, body) {
+    if (Notification.permission === "granted") {
+        new Notification(title, {
+            body: body,
+            icon: '/assets/images/icon-192.png' // Ikon web kamu
+        });
+    }
+}
