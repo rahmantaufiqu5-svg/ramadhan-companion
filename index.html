@@ -1,109 +1,107 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadhan Companion v10.3</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ramadhan Companion</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#059669">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { ramadhan: '#059669' } } }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 transition-colors duration-300 pb-20">
 
-<div class="app-container">
+    <header class="bg-ramadhan text-white p-5 rounded-b-3xl shadow-md sticky top-0 z-40">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h1 class="text-xl font-bold">Ramadhan 1447H</h1>
+                <p id="location-text" class="text-xs opacity-80"><i class="fas fa-location-dot"></i> Mencari lokasi...</p>
+            </div>
+            <button id="theme-toggle" class="p-2 bg-white/20 rounded-full hover:bg-white/30 transition">
+                <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
+        </div>
+        <div class="bg-white/10 p-4 rounded-2xl backdrop-blur-sm text-center border border-white/20">
+            <p id="countdown-label" class="text-sm font-medium mb-1">Menuju Waktu Buka/Imsak</p>
+            <div id="countdown-timer" class="text-3xl font-black tracking-widest font-mono">--:--:--</div>
+        </div>
+    </header>
 
-  <header class="topbar">
-    <div>
-      <h1>Ramadhan Companion</h1>
-      <p id="greetingText" class="greeting"></p>
-    </div>
-    <button id="themeToggle" class="theme-btn">🌙</button>
-  </header>
+    <main id="app-content" class="p-4 space-y-6">
+        
+        <section id="view-dashboard" class="app-view">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="font-bold text-lg">Jadwal Hari Ini</h2>
+                <span id="current-date" class="text-xs text-slate-500 dark:text-slate-400">...</span>
+            </div>
+            <div id="prayer-times-grid" class="grid grid-cols-3 gap-3 text-center mb-6">
+                <div class="col-span-3 text-sm text-slate-400 py-4"><i class="fas fa-spinner fa-spin"></i> Memuat jadwal...</div>
+            </div>
 
-  <main class="dashboard">
+            <h2 class="font-bold text-lg mb-2">Menu Ibadah</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="switchView('view-checklist')" class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center gap-2 active:scale-95 transition">
+                    <div class="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center text-xl"><i class="fas fa-list-check"></i></div>
+                    <span class="font-medium text-sm">Checklist</span>
+                </button>
+                <button onclick="switchView('view-tilawah')" class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center gap-2 active:scale-95 transition">
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center text-xl"><i class="fas fa-book-quran"></i></div>
+                    <span class="font-medium text-sm">Tilawah</span>
+                </button>
+                <button onclick="switchView('view-sedekah')" class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center gap-2 active:scale-95 transition">
+                    <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400 rounded-full flex items-center justify-center text-xl"><i class="fas fa-hand-holding-dollar"></i></div>
+                    <span class="font-medium text-sm">Sedekah</span>
+                </button>
+                <button onclick="switchView('view-muhasabah')" class="bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col items-center gap-2 active:scale-95 transition">
+                    <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-full flex items-center justify-center text-xl"><i class="fas fa-pen-nib"></i></div>
+                    <span class="font-medium text-sm">Muhasabah</span>
+                </button>
+            </div>
+        </section>
 
-    <section class="card highlight">
-      <h2>🕌 Waktu Sholat Berikutnya</h2>
-      <p id="nextPrayer">Memuat...</p>
-      <p id="countdownPrayer"></p>
-    </section>
+        <section id="view-checklist" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Checklist Harian</h2><div id="checklist-container"></div></section>
+        <section id="view-tilawah" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Tracker Tilawah</h2><div id="tilawah-container"></div></section>
+        <section id="view-sedekah" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Catatan Sedekah</h2><div id="sedekah-container"></div></section>
+        <section id="view-muhasabah" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Jurnal Muhasabah</h2><div id="muhasabah-container"></div></section>
+        <section id="view-stats" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Statistik Ibadah</h2><canvas id="chart-container"></canvas></section>
+        <section id="view-settings" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Pengaturan & Backup</h2><div id="backup-container"></div></section>
 
-    <section class="card">
-      <h2>📅 Hari Ini</h2>
-      <p id="todayDate"></p>
-      <p id="ramadhanDay"></p>
-      <p id="countdownIftar"></p>
-    </section>
+    </main>
 
-    <section class="card">
-      <h2>✅ Checklist Amal</h2>
-      <div id="checklist"></div>
-      <div class="progress-wrapper">
-        <div class="progress-bar"><div id="progressFill"></div></div>
-        <p id="progressText"></p>
-      </div>
-    </section>
+    <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 flex justify-around p-2 z-50 pb-safe">
+        <button onclick="switchView('view-dashboard')" class="nav-btn active flex flex-col items-center p-2 text-ramadhan w-16">
+            <i class="fas fa-home text-lg mb-1"></i><span class="text-[10px] font-medium">Home</span>
+        </button>
+        <button onclick="switchView('view-stats')" class="nav-btn flex flex-col items-center p-2 text-slate-400 hover:text-ramadhan dark:hover:text-emerald-400 w-16 transition">
+            <i class="fas fa-chart-line text-lg mb-1"></i><span class="text-[10px] font-medium">Statistik</span>
+        </button>
+        <button onclick="switchView('view-settings')" class="nav-btn flex flex-col items-center p-2 text-slate-400 hover:text-ramadhan dark:hover:text-emerald-400 w-16 transition">
+            <i class="fas fa-cog text-lg mb-1"></i><span class="text-[10px] font-medium">Setelan</span>
+        </button>
+    </nav>
 
-    <section class="card">
-      <h2>📖 Tilawah</h2>
-      <p>Target: 1 Juz / Hari</p>
-      <p>Progress: <span id="tilawahValue">0</span> Juz</p>
-      <div class="tilawah-buttons">
-        <button onclick="addTilawah(0.5)">+0.5</button>
-        <button onclick="addTilawah(1)">+1</button>
-        <button onclick="addTilawah(-0.5)">-0.5</button>
-      </div>
-    </section>
+    <div id="toast-container" class="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <section class="card">
-      <h2>💸 Sedekah</h2>
-      <button id="addSedekah">Tambah Sedekah</button>
-      <div id="sedekahHistory"></div>
-    </section>
-
-    <section class="card">
-      <h2>📝 Muhasabah</h2>
-      <textarea id="muhasabahInput" placeholder="Tulis refleksi hari ini..."></textarea>
-      <button id="saveMuhasabah">Simpan</button>
-      <div id="muhasabahHistory"></div>
-    </section>
-
-    <section class="card">
-      <h2>📊 Statistik</h2>
-      <canvas id="statsChart" height="200"></canvas>
-    </section>
-
-    <section class="card">
-      <h2>📅 Kalender Ramadhan</h2>
-      <div id="calendar"></div>
-    </section>
-
-    <section class="card">
-      <h2>⚙️ Pengaturan</h2>
-      <button id="resetData">Reset Semua Data</button>
-      <button id="exportData">Backup</button>
-      <button id="importData">Restore</button>
-    </section>
-
-  </main>
-
-</div>
-
-<!-- Scripts JS Final -->
-<script src="js/main.js"></script>
-<script src="js/checklist.js"></script>
-<script src="js/tilawah.js"></script>
-<script src="js/muhasabah.js"></script>
-<script src="js/sedekah.js"></script>
-<script src="js/stats.js"></script>
-<script src="js/calendar.js"></script>
-<script src="js/theme.js"></script>
-<script src="js/backup.js"></script>
-
+    <script src="js/main.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/checklist.js"></script>
+    <script src="js/tilawah.js"></script>
+    <script src="js/sedekah.js"></script>
+    <script src="js/muhasabah.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/backup.js"></script>
 </body>
 </html>
