@@ -86,7 +86,25 @@
         <section id="view-checklist" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Checklist Harian</h2><div id="checklist-container"></div></section>
         <section id="view-tilawah" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Tracker Tilawah</h2><div id="tilawah-container"></div></section>
         <section id="view-sedekah" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Catatan Sedekah</h2><div id="sedekah-container"></div></section>
-        <section id="view-muhasabah" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Jurnal Muhasabah</h2><div id="muhasabah-container"></div></section>
+        <section id="view-muhasabah" class="app-view hidden">
+            <h2 class="font-bold text-xl mb-4">Jurnal Muhasabah</h2>
+            <div id="muhasabah-container">
+                <div class="mt-4">
+                    <textarea id="muhasabah-input" rows="5" placeholder="Tulis hal yang kamu syukuri atau evaluasi puasamu hari ini..." class="w-full p-4 rounded-xl border border-gray-200 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none shadow-sm"></textarea>
+                    
+                    <button onclick="saveMuhasabah()" class="w-full mt-3 bg-[#10b981] hover:bg-[#059669] text-white font-bold py-3 px-4 rounded-xl transition duration-200 shadow-sm active:scale-95">
+                        Simpan Catatan
+                    </button>
+
+                    <div class="mt-8">
+                        <h3 class="font-semibold text-gray-700 mb-3 border-b pb-2">Riwayat Catatanmu:</h3>
+                        <div id="muhasabah-list" class="space-y-3 pb-20">
+                            <p class="text-sm text-gray-500 italic">Belum ada catatan. Mulai tulis jurnal pertamamu di atas!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section id="view-stats" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Statistik Ibadah</h2><canvas id="chart-container"></canvas></section>
         <section id="view-settings" class="app-view hidden"><h2 class="font-bold text-xl mb-4">Pengaturan & Backup</h2><div id="backup-container"></div></section>
         <section id="view-calendar" class="app-view hidden">
